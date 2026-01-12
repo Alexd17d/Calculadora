@@ -6,7 +6,7 @@ package com.mycompany.calcu;
 
 /**
  *
- * @author Richard
+ * @author Alexd17d
  */
 public class Calcudora extends javax.swing.JFrame {
     
@@ -408,7 +408,7 @@ public class Calcudora extends javax.swing.JFrame {
         
         float numero = Float.parseFloat(this.pantalla.getText());
   
-        if (numero == 0) {
+        if (numero ==0 ) {
             this.pantalla.setText("Error");
         } else {
             this.pantalla.setText(comprobarCero(1 / numero));
