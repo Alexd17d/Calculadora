@@ -13,6 +13,7 @@ public class Calcudora extends javax.swing.JFrame {
     private float primerNumero;
     private float segundoNumero;
     private String operador;
+    private boolean nuevaOperacion = false;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Calcudora.class.getName());
 
     /**
@@ -342,25 +343,36 @@ public class Calcudora extends javax.swing.JFrame {
     }//GEN-LAST:event_btn3ActionPerformed
 
     private void btnIgualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIgualActionPerformed
-        this.segundoNumero = Float.parseFloat(this.pantalla.getText());
-        switch(this.operador){
-            case "+":
-                this.pantalla.setText(comprobarCero(this.primerNumero + this.segundoNumero));
-                break;
-            case "-":
-                this.pantalla.setText(comprobarCero(this.primerNumero - this.segundoNumero));
-                break;
-            case "*":
-                this.pantalla.setText(comprobarCero(this.primerNumero * this.segundoNumero));
-                break;
-            case "/":
-                if(this.segundoNumero == 0){
-                    this.pantalla.setText("No es posible dividir para 0");
-                }else{
-                    this.pantalla.setText(comprobarCero(this.primerNumero / this.segundoNumero));
-                }
-                break;
-        }
+        
+    this.segundoNumero = Float.parseFloat(this.pantalla.getText());
+    
+    float resultadoMatematico = 0;
+
+    switch(this.operador){
+        case "+":
+            resultadoMatematico = this.primerNumero + this.segundoNumero;
+            break;
+        case "-":
+            resultadoMatematico = this.primerNumero - this.segundoNumero;
+            break;
+        case "*":
+            resultadoMatematico = this.primerNumero * this.segundoNumero;
+            break;
+        case "/":
+            if(this.segundoNumero == 0){
+                this.pantalla.setText("No es posible dividir para 0");
+                return; // Salimos del método para no seguir
+            } else {
+                resultadoMatematico = this.primerNumero / this.segundoNumero;
+            }
+            break;
+    }
+
+    String num1 = comprobarCero(this.primerNumero);
+    String num2 = comprobarCero(this.segundoNumero);
+    String result = comprobarCero(resultadoMatematico);
+    
+    this.pantalla.setText(num1 + " " + this.operador + " " + num2 + " = " + result);
     }//GEN-LAST:event_btnIgualActionPerformed
 
     private void btn0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn0ActionPerformed
@@ -376,42 +388,60 @@ public class Calcudora extends javax.swing.JFrame {
 
     private void btnPotenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPotenciaActionPerformed
         
-       
-        float numero = Float.parseFloat(this.pantalla.getText());
-        float cuadrado = numero * numero;
-        this.pantalla.setText(comprobarCero(cuadrado));
+       try {
+            float numero = Float.parseFloat(this.pantalla.getText());
+            float cuadrado = numero * numero;
+            String texto = "sqr( " + comprobarCero(numero) + " ) = " + comprobarCero(cuadrado);
+            this.pantalla.setText(texto);
+        } catch (NumberFormatException e) {
+            this.pantalla.setText("Error");
+}
     }//GEN-LAST:event_btnPotenciaActionPerformed
 
     private void btnRaizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRaizActionPerformed
         
-        float numero = Float.parseFloat(this.pantalla.getText());
-  
-        if (numero < 0) {
+        try {
+            float numero = Float.parseFloat(this.pantalla.getText());
+            if (numero < 0) {
+                this.pantalla.setText("Error");
+            } else {
+    
+                float raiz = (float) Math.sqrt(numero);
+                String texto = "√( " + comprobarCero(numero) + " ) = " + comprobarCero(raiz);
+                this.pantalla.setText(texto);
+                }
+            } catch (NumberFormatException e) {
             this.pantalla.setText("Error");
-        } else {
-            float raiz = (float) Math.sqrt(numero);
-            this.pantalla.setText(comprobarCero(raiz));
-        }
+            }
     }//GEN-LAST:event_btnRaizActionPerformed
 
     private void btnPorcentajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPorcentajeActionPerformed
-        
+       try {
         float numero = Float.parseFloat(this.pantalla.getText());
-        this.pantalla.setText(comprobarCero(numero / 100));
+        float resultado = numero / 100;
+        String texto = comprobarCero(numero) + "% = " + comprobarCero(resultado);
+        this.pantalla.setText(texto);        
+       } catch (NumberFormatException e) {
     }//GEN-LAST:event_btnPorcentajeActionPerformed
-
+    }
     private void btnMenos4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenos4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnMenos4ActionPerformed
 
     private void btnReciprocoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReciprocoActionPerformed
         
-        float numero = Float.parseFloat(this.pantalla.getText());
-  
-        if (numero ==0 ) {
+       try {
+            float numero = Float.parseFloat(this.pantalla.getText());
+            if (numero == 0) {
+
+                this.pantalla.setText("Error");
+            } else {
+                float resultado = 1 / numero;
+                String texto = "1/( " + comprobarCero(numero) + " ) = " + comprobarCero(resultado);
+                this.pantalla.setText(texto);
+            }
+       } catch (NumberFormatException e) {
             this.pantalla.setText("Error");
-        } else {
-            this.pantalla.setText(comprobarCero(1 / numero));
         }
     }//GEN-LAST:event_btnReciprocoActionPerformed
 
